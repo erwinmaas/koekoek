@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# TLS material — NEVER commit private keys / certs
+*.pem
+*.key
+*.crt
+
+# MetaTrader compiled artifacts
+*.ex5
+
+# Runtime snapshot files
+*.bin
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
