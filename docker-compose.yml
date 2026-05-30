@@ -1,0 +1,27 @@
+# Relay container — plain TCP (LAN/VPN use).
+# Token comes from a .env file in this folder:  COPYTRADER_TOKEN=your-secret
+# Run permanently:  docker compose up -d --build
+
+services:
+  relay:
+    build: .
+    image: koekoek-relay:latest
+    container_name: koekoek-relay
+    ports:
+      - "9000:9000"
+    environment:
+      PORT: "9000"
+      COPYTRADER_TOKEN: "${COPYTRADER_TOKEN:?set COPYTRADER_TOKEN in .env}"
+      LOG_FILE: "/data/relay_audit.log"   # durable audit trail (rotating)
+      LOG_MAX_MB: "50"
+      LOG_BACKUPS: "10"
+    volumes:
+      # Audit logs persist on the host. The container runs as uid 10001, so the
+      # host dir must be writable by it:  sudo chown -R 10001:10001 logs
+      - ./logs:/data
+    restart: unless-stopped
+
+    # For app-level TLS instead of plain TCP, mount certs and override the command:
+    # volumes:
+    #   - ./certs:/certs:ro
+    # command: ["--tls", "--cert", "/certs/cert.pem", "--key", "/certs/key.pem"]

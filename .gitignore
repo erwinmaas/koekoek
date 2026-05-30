@@ -16,7 +16,13 @@ venv/
 # Runtime snapshot files
 *.bin
 
+# Secrets & runtime logs
+.env
+logs/
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db
 *.swp
+
+*.pem

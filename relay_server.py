@@ -232,7 +232,7 @@ def main():
     global EXPECTED_TOKEN
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=PORT)
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", PORT)))
     parser.add_argument("--host", type=str, default=HOST)
     parser.add_argument("--tls", action="store_true", help="Enable TLS")
     parser.add_argument("--cert", type=str, default="cert.pem", help="TLS certificate file")

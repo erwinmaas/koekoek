@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.pem
+*.key
+*.crt
+*.mq5
+*.ex5
+*.bin
+*.md
+.git/
+.gitignore
+.DS_Store
+docker-compose.yml

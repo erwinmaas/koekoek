@@ -329,19 +329,21 @@ void RelayPollRecv()
 
    if(RelayUseTLS)
    {
-      uint avail;
-      while((avail = SocketTlsReadAvailable(g_sock)) > 0)
+      // SocketTlsReadAvailable(socket, buffer, maxlen) reads the available
+      // decrypted bytes into buffer and returns the count (-1 on error).
+      const uint chunk = 4096;
+      ArrayResize(buf, chunk);
+      int r;
+      while((r = SocketTlsReadAvailable(g_sock, buf, chunk)) > 0)
       {
-         ArrayResize(buf, avail);
-         int r = SocketTlsRead(g_sock, buf, avail);
-         if(r <= 0)
-            break;
          g_recvBuffer += CharArrayToString(buf, 0, r, CP_UTF8);
          if(StringLen(g_recvBuffer) > MAX_LINE * 4)   // runaway guard
          {
             g_recvBuffer = "";
             break;
          }
+         if((uint)r < chunk)   // drained what was available
+            break;
       }
    }
    else
